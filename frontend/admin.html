@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Motus Drive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    /* Unified Dark Theme Variables - Same as Alumni */
+    :root {
+      --bg-primary: #121212;
+      --bg-surface: #1e1e2f;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --accent-start: #667eea;
+      --accent-end: #764ba2;
+      --accent-alt-start: #f093fb;
+      --accent-alt-end: #f5576c;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: rgba(255, 255, 255, 0.1);
+      --shadow: rgba(102, 126, 234, 0.3);
+      --shadow-success: rgba(16, 185, 129, 0.3);
+      --shadow-warning: rgba(245, 158, 11, 0.3);
+      --shadow-danger: rgba(239, 68, 68, 0.3);
+    }
+
+    /* Reset and Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-surface) 50%, #16213e 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Admin Navbar - Unified with Alumni */
+    .admin-navbar {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0;
+    }
+
+    .admin-nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    .admin-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 700;
+      transition: transform 0.3s ease;
+    }
+
+    .admin-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .admin-logo-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, var(--warning) 0%, #ea580c 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+      filter: drop-shadow(0 0 10px var(--warning));
+    }
+
+    .logo-img {
+      height: 45px;
+      width: auto;
+      border-radius: 8px;
+      filter: drop-shadow(0 0 10px var(--accent-end));
+    }
+
+    .logo-text {
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .admin-nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    .admin-nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      color: var(--text-primary);
+      background: var(--bg-card);
+      transform: translateY(-2px);
+    }
+
+    .admin-nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--accent-start);
+      border-radius: 50%;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: var(--bg-card);
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .admin-profile:hover {
+      border-color: var(--accent-start);
+      box-shadow: 0 10px 20px var(--shadow);
+    }
+
+    .admin-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--warning) 0%, #ea580c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 5px 15px var(--shadow-warning);
+    }
+
+    .admin-info h4 {
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+      color: var(--text-primary);
+    }
+
+    .admin-info p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Mobile Toggle */
+    .admin-nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+      z-index: 1001;
+    }
+
+    .admin-bar {
+      width: 25px;
+      height: 3px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* Main Dashboard */
+    .admin-dashboard {
+      min-height: calc(100vh - 80px);
+      padding: 40px 0;
+      position: relative;
+    }
+
+    .admin-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Dashboard Header */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+      gap: 20px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .header-info h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-info p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .admin-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: white;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .admin-btn-primary {
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .admin-btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Stats Overview */
+    .stats-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      animation: slideInUp 0.8s ease-out;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .stat-card:hover::before {
+      left: 100%;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--accent-start);
+      box-shadow: 0 20px 40px var(--shadow);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .stat-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-icon.users {
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+    }
+
+    .stat-icon.revenue {
+      background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+    }
+
+    .stat-icon.bookings {
+      background: linear-gradient(135deg, var(--accent-alt-start) 0%, var(--accent-alt-end) 100%);
+    }
+
+    .stat-icon.satisfaction {
+      background: linear-gradient(135deg, var(--warning) 0%, #ea580c 100%);
+    }
+
+    .stat-trend {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-trend.up {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .stat-trend.down {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .dashboard-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      animation: slideInUp 0.8s ease-out 0.5s both;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card-action {
+      color: var(--accent-start);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .card-action:hover {
+      color: var(--accent-end);
+    }
+
+    /* Recent Activities */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      background: var(--bg-surface);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+      border-color: var(--accent-start);
+      transform: translateX(5px);
+      box-shadow: 0 10px 20px var(--shadow);
+    }
+
+    .activity-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .activity-icon.new-user {
+      background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+    }
+
+    .activity-icon.booking {
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+    }
+
+    .activity-icon.payment {
+      background: linear-gradient(135deg, var(--warning) 0%, #ea580c 100%);
+    }
+
+    .activity-icon.graduation {
+      background: linear-gradient(135deg, var(--accent-alt-start) 0%, var(--accent-alt-end) 100%);
+    }
+
+    .activity-info h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .activity-info p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .activity-time {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    /* Management Grid */
+    .management-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .management-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      animation: slideInUp 0.8s ease-out 0.7s both;
+    }
+
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .quick-action {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .quick-action:hover {
+      background: var(--bg-card);
+      border-color: var(--accent-start);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px var(--shadow);
+    }
+
+    .quick-action i {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      color: var(--accent-start);
+      display: block;
+    }
+
+    .quick-action h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text-primary);
+    }
+
+    .quick-action p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Charts Placeholder */
+    .chart-container {
+      height: 300px;
+      background: var(--bg-surface);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(102, 126, 234, 0.05) 10px,
+        rgba(102, 126, 234, 0.05) 20px
+      );
+    }
+
+    .chart-placeholder {
+      text-align: center;
+      color: var(--text-secondary);
+      z-index: 1;
+      position: relative;
+    }
+
+    .chart-placeholder i {
+      font-size: 3rem;
+      color: var(--accent-start);
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    /* System Status */
+    .system-status {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px;
+      background: var(--bg-surface);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .status-item:hover {
+      border-color: var(--accent-start);
+      box-shadow: 0 5px 15px var(--shadow);
+    }
+
+    .status-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .status-indicator::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.online {
+      background: var(--success);
+    }
+
+    .status-indicator.online::after {
+      background: var(--success);
+    }
+
+    .status-indicator.warning {
+      background: var(--warning);
+    }
+
+    .status-indicator.warning::after {
+      background: var(--warning);
+    }
+
+    .status-indicator.offline {
+      background: var(--danger);
+    }
+
+    .status-indicator.offline::after {
+      background: var(--danger);
+    }
+
+    .status-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .status-value {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 0.1;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      border-radius: 4px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .admin-nav-toggle {
+        display: flex;
+      }
+
+      .admin-nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 80px;
+        flex-direction: column;
+        background: var(--bg-surface);
+        backdrop-filter: blur(20px);
+        width: 100%;
+        height: calc(100vh - 80px);
+        padding: 30px;
+        transition: left 0.3s ease;
+        gap: 15px;
+        border-top: 1px solid var(--border);
+        z-index: 1000;
+      }
+
+      .admin-nav-menu.active {
+        left: 0;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+      }
+
+      .header-info h1 {
+        font-size: 2.2rem;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .stats-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .management-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-actions-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-container {
+        padding: 0 15px;
+      }
+
+      .admin-profile {
+        padding: 8px 15px;
+        gap: 10px;
+      }
+
+      .admin-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+
+      .admin-info h4 {
+        font-size: 0.85rem;
+      }
+
+      .admin-info p {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-info h1 {
+        font-size: 1.8rem;
+      }
+
+      .stat-card,
+      .dashboard-card,
+      .management-card {
+        padding: 20px;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* Mobile Menu Animation */
+    .admin-nav-toggle.active .admin-bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .admin-nav-toggle.active .admin-bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .admin-nav-toggle.active .admin-bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  </style>
+</head>
+<body>
+  <!-- Admin Navigation -->
+  <nav class="admin-navbar">
+    <div class="admin-nav-container">
+      <a href="index.html" class="admin-logo">
+        <img src="/motus-drive/frontend/assets/images/Motous Drive Logo Design 4.png" alt="Motus Drive" class="logo-img">
+        <!-- <span class="logo-text">Motus Drive Admin</span> -->
+      </a>
+      
+      <ul class="admin-nav-menu" id="adminNavMenu">
+        <li><a href="#dashboard" class="admin-nav-link active">Dashboard</a></li>
+        <li><a href="#users" class="admin-nav-link">Users</a></li>
+        <li><a href="#bookings" class="admin-nav-link">Bookings</a></li>
+        <li><a href="#instructors" class="admin-nav-link">Instructors</a></li>
+        <li><a href="#reports" class="admin-nav-link">Reports</a></li>
+        <li><a href="#settings" class="admin-nav-link">Settings</a></li>
+      </ul>
+
+      <div class="admin-profile">
+        <div class="admin-avatar">👨‍💼</div>
+        <div class="admin-info">
+          <h4>Admin User</h4>
+          <p>System Administrator</p>
+        </div>
+      </div>
+
+      <div class="admin-nav-toggle" id="adminNavToggle">
+        <span class="admin-bar"></span>
+        <span class="admin-bar"></span>
+        <span class="admin-bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Admin Dashboard -->
+  <main class="admin-dashboard">
+    <div class="admin-container">
+      <!-- Dashboard Header -->
+      <div class="dashboard-header">
+        <div class="header-info">
+          <h1>Admin Dashboard</h1>
+          <p>Manage your driving school operations efficiently</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="admin-btn admin-btn-primary">
+            <i class="fas fa-plus"></i>
+            Add New User
+          </a>
+          <a href="#" class="admin-btn admin-btn-secondary">
+            <i class="fas fa-download"></i>
+            Export Report
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats Overview -->
+      <section class="stats-overview">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon users">
+              <i class="fas fa-users"></i>
+            </div>
+            <span class="stat-trend up">+12%</span>
+          </div>
+          <div class="stat-number" data-count="1247">0</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon revenue">
+              <i class="fas fa-rupee-sign"></i>
+            </div>
+            <span class="stat-trend up">+8%</span>
+          </div>
+          <div class="stat-number" data-count="385000">₹0</div>
+          <div class="stat-label">Monthly Revenue</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon bookings">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <span class="stat-trend up">+15%</span>
+          </div>
+          <div class="stat-number" data-count="892">0</div>
+          <div class="stat-label">Active Bookings</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon satisfaction">
+              <i class="fas fa-star"></i>
+            </div>
+            <span class="stat-trend up">+2%</span>
+          </div>
+          <div class="stat-number" data-count="4.8">0</div>
+          <div class="stat-label">Avg. Rating</div>
+        </div>
+      </section>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Analytics Chart -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title">Revenue Analytics</h3>
+            <a href="#" class="card-action">View Details</a>
+          </div>
+          <div class="chart-container">
+            <div class="chart-placeholder">
+              <i class="fas fa-chart-line"></i>
+              <h4>Revenue Chart</h4>
+              <p>Interactive analytics dashboard coming soon</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Activities</h3>
+            <a href="#" class="card-action">View All</a>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon new-user">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="activity-info">
+                <h4>New User Registration</h4>
+                <p>Sarah Chen joined as learner</p>
+              </div>
+              <span class="activity-time">2m ago</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon booking">
+                <i class="fas fa-calendar-plus"></i>
+              </div>
+              <div class="activity-info">
+                <h4>Lesson Booked</h4>
+                <p>Highway driving with Mike Johnson</p>
+              </div>
+              <span class="activity-time">15m ago</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon payment">
+                <i class="fas fa-credit-card"></i>
+              </div>
+              <div class="activity-info">
+                <h4>Payment Received</h4>
+                <p>₹2,500 from Raj Patel</p>
+              </div>
+              <span class="activity-time">1h ago</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon graduation">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="activity-info">
+                <h4>Course Completed</h4>
+                <p>Maria Garcia finished advanced course</p>
+              </div>
+              <span class="activity-time">3h ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Management Section -->
+      <div class="management-grid">
+        <!-- Quick Actions -->
+        <div class="management-card">
+          <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+          </div>
+          <div class="quick-actions-grid">
+            <a href="#" class="quick-action">
+              <i class="fas fa-user-plus"></i>
+              <h4>Add User</h4>
+              <p>Create new account</p>
+            </a>
+            <a href="#" class="quick-action">
+              <i class="fas fa-calendar-plus"></i>
+              <h4>Schedule Lesson</h4>
+              <p>Book new session</p>
+            </a>
+            <a href="#" class="quick-action">
+              <i class="fas fa-file-invoice"></i>
+              <h4>Generate Report</h4>
+              <p>Create analytics report</p>
+            </a>
+            <a href="#" class="quick-action">
+              <i class="fas fa-cog"></i>
+              <h4>System Settings</h4>
+              <p>Configure platform</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="management-card">
+          <div class="card-header">
+            <h3 class="card-title">System Status</h3>
+          </div>
+          <div class="system-status">
+            <div class="status-item">
+              <div class="status-info">
+                <div class="status-indicator online"></div>
+                <span class="status-label">Database</span>
+              </div>
+              <span class="status-value">Online</span>
+            </div>
+            <div class="status-item">
+              <div class="status-info">
+                <div class="status-indicator online"></div>
+                <span class="status-label">Payment Gateway</span>
+              </div>
+              <span class="status-value">Active</span>
+            </div>
+            <div class="status-item">
+              <div class="status-info">
+                <div class="status-indicator warning"></div>
+                <span class="status-label">Email Service</span>
+              </div>
+              <span class="status-value">Slow</span>
+            </div>
+            <div class="status-item">
+              <div class="status-info">
+                <div class="status-indicator online"></div>
+                <span class="status-label">Backup System</span>
+              </div>
+              <span class="status-value">Running</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu toggle
+      const navToggle = document.getElementById('adminNavToggle');
+      const navMenu = document.getElementById('adminNavMenu');
+
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          navMenu.classList.toggle('active');
+          navToggle.classList.toggle('active');
+          
+          if (navMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+          } else {
+            document.body.style.overflow = 'auto';
+          }
+        });
+
+        // Close menu when clicking on nav links
+        document.querySelectorAll('.admin-nav-link').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            e.target.classList.add('active');
+            
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            const section = e.target.textContent.toLowerCase();
+            alert(`${section} section will be implemented soon!`);
+          });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
+        });
+      }
+
+      // Button interactions
+      document.querySelectorAll('.admin-btn, .quick-action').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const action = this.textContent.trim();
+          alert(`${action} functionality will be implemented soon!`);
+        });
+      });
+
+      // Animate counters
+      function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+          const target = counter.getAttribute('data-count');
+          let numericTarget;
+          
+          if (target.includes('₹')) {
+            numericTarget = parseInt(target.replace(/[₹,]/g, ''));
+          } else if (target.includes('.')) {
+            numericTarget = parseFloat(target);
+          } else {
+            numericTarget = parseInt(target);
+          }
+          
+          let current = 0;
+          const increment = numericTarget / 50;
+          
+          const updateCounter = () => {
+            if (current < numericTarget) {
+              current += increment;
+              
+              if (target.includes('₹')) {
+                counter.textContent = '₹' + Math.floor(current).toLocaleString();
+              } else if (target.includes('.')) {
+                counter.textContent = (current).toFixed(1);
+              } else {
+                counter.textContent = Math.floor(current).toLocaleString();
+              }
+              
+              requestAnimationFrame(updateCounter);
+            } else {
+              counter.textContent = target.includes('₹') ? '₹' + numericTarget.toLocaleString() : target;
+            }
+          };
+          
+          updateCounter();
+        });
+      }
+
+      // Intersection Observer for animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (entry.target.classList.contains('stats-overview')) {
+              animateCounters();
+            }
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+
+      const statsSection = document.querySelector('.stats-overview');
+      if (statsSection) {
+        observer.observe(statsSection);
+      }
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

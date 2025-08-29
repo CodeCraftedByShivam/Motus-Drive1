@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alumni Dashboard - Motus Drive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    /* Unified Dark Theme Variables */
+    :root {
+      --bg-primary: #121212;
+      --bg-surface: #1e1e2f;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --accent-start: #667eea;
+      --accent-end: #764ba2;
+      --accent-alt-start: #f093fb;
+      --accent-alt-end: #f5576c;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: rgba(255, 255, 255, 0.1);
+      --shadow: rgba(102, 126, 234, 0.3);
+    }
+
+    /* Reset and Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-surface) 50%, #16213e 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Unified Navbar */
+    .navbar {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-img {
+      height: 45px;
+      width: auto;
+      border-radius: 8px;
+      filter: drop-shadow(0 0 10px var(--accent-end));
+    }
+
+    .logo-text {
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: var(--bg-card);
+      transform: translateY(-2px);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: var(--bg-card);
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-alt-start) 0%, var(--accent-alt-end) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 5px 15px var(--shadow);
+    }
+
+    /* Mobile Toggle */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+      z-index: 1001;
+    }
+
+    .bar {
+      width: 25px;
+      height: 3px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* Alumni Dashboard */
+    .alumni-dashboard {
+      min-height: calc(100vh - 80px);
+      padding: 40px 0;
+      position: relative;
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    .alumni-hero {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .alumni-hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .achievement-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .achievement-badge:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-icon {
+      font-size: 1.5rem;
+      color: var(--warning);
+    }
+
+    /* Stats Grid */
+    .alumni-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      animation: rotate 10s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: var(--accent-start);
+      box-shadow: 0 25px 50px var(--shadow);
+    }
+
+    .stat-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: block;
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--text-primary);
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Section Styling */
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Journey Timeline */
+    .journey-section {
+      margin-bottom: 60px;
+    }
+
+    .journey-timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--accent-alt-start), var(--accent-alt-end));
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 50px;
+      position: relative;
+      animation: slideInUp 0.8s ease-out;
+    }
+
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 0 30px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-start);
+      box-shadow: 0 15px 30px var(--shadow);
+    }
+
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border: 15px solid transparent;
+      transform: translateY(-50%);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content::before {
+      right: -30px;
+      border-left-color: var(--border);
+    }
+
+    .timeline-item:nth-child(even) .timeline-content::before {
+      left: -30px;
+      border-right-color: var(--border);
+    }
+
+    .timeline-dot {
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--accent-alt-start) 0%, var(--accent-alt-end) 100%);
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(240, 147, 251, 0.5);
+    }
+
+    .timeline-date {
+      font-size: 0.9rem;
+      color: var(--warning);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .timeline-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .timeline-desc {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Success Stories */
+    .success-stories {
+      margin-bottom: 60px;
+    }
+
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .story-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .story-card:hover::before {
+      left: 100%;
+    }
+
+    .story-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent-start);
+      box-shadow: 0 25px 50px var(--shadow);
+    }
+
+    .story-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .story-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-alt-start) 0%, var(--accent-alt-end) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      box-shadow: 0 10px 20px var(--shadow);
+    }
+
+    .story-info h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text-primary);
+    }
+
+    .story-role {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .story-quote {
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .story-quote::before,
+    .story-quote::after {
+      content: '"';
+      font-size: 3rem;
+      color: var(--accent-start);
+      position: absolute;
+      top: -10px;
+      opacity: 0.3;
+    }
+
+    .story-quote::before {
+      left: -5px;
+    }
+
+    .story-quote::after {
+      right: -5px;
+    }
+
+    /* Community Section */
+    .community-section {
+      text-align: center;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 50px;
+      margin-bottom: 60px;
+    }
+
+    .community-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .community-desc {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .community-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 2px solid var(--accent-start);
+      color: var(--accent-start);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-start);
+      color: white;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Animation Delays */
+    .stat-card:nth-child(1) { animation: slideInUp 0.8s ease 0.1s both; }
+    .stat-card:nth-child(2) { animation: slideInUp 0.8s ease 0.2s both; }
+    .stat-card:nth-child(3) { animation: slideInUp 0.8s ease 0.3s both; }
+    .stat-card:nth-child(4) { animation: slideInUp 0.8s ease 0.4s both; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      border-radius: 4px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 80px;
+        flex-direction: column;
+        background: var(--bg-surface);
+        backdrop-filter: blur(20px);
+        width: 100%;
+        height: calc(100vh - 80px);
+        padding: 30px;
+        transition: left 0.3s ease;
+        gap: 15px;
+        border-top: 1px solid var(--border);
+        z-index: 1000;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .alumni-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .alumni-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .timeline-line {
+        left: 30px;
+      }
+
+      .timeline-item {
+        flex-direction: row !important;
+        padding-left: 60px;
+      }
+
+      .timeline-content {
+        margin: 0 0 0 20px;
+      }
+
+      .timeline-content::before {
+        left: -15px !important;
+        border-right-color: var(--border) !important;
+        border-left-color: transparent !important;
+      }
+
+      .timeline-dot {
+        left: 30px;
+        transform: translateX(-50%);
+      }
+
+      .stories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .community-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .dashboard-container {
+        padding: 0 15px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .community-section {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .alumni-hero h1 {
+        font-size: 2rem;
+      }
+
+      .stat-card {
+        padding: 25px 20px;
+      }
+
+      .user-profile {
+        padding: 8px 15px;
+        gap: 10px;
+      }
+
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+    }
+
+    /* Mobile Menu Animation */
+    .nav-toggle.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active .bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-toggle.active .bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="/motus-drive/frontend/assets/images/Motous Drive Logo Design 4.png" alt="Motus Drive" class="logo-img">
+        <!-- <span class="logo-text">Motus Drive</span> -->
+      </a>
+      
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#journey" class="nav-link">My Journey</a></li>
+        <li><a href="#community" class="nav-link">Community</a></li>
+        <li><a href="#stories" class="nav-link">Success Stories</a></li>
+        <li><a href="#events" class="nav-link">Events</a></li>
+      </ul>
+
+      <div class="user-profile">
+        <div class="user-avatar">👨‍🎓</div>
+        <span>Alumni</span>
+      </div>
+
+      <div class="nav-toggle" id="navToggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Dashboard -->
+  <main class="alumni-dashboard">
+    <div class="dashboard-container">
+      <!-- Hero Section -->
+      <section class="alumni-hero">
+        <h1>Welcome Back, Graduate! 🎓</h1>
+        <p class="hero-subtitle">
+          You've successfully completed your driving journey with Motus Drive. 
+          Continue to be part of our amazing community of safe drivers.
+        </p>
+        <div class="achievement-badge">
+          <span class="badge-icon">🏆</span>
+          <span>Certified Safe Driver</span>
+        </div>
+      </section>
+
+      <!-- Alumni Stats -->
+      <section class="alumni-stats">
+        <div class="stat-card">
+          <span class="stat-icon">📅</span>
+          <span class="stat-number">2</span>
+          <span class="stat-label">Years Since Graduation</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🚗</span>
+          <span class="stat-number">15,000</span>
+          <span class="stat-label">Miles Driven Safely</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">⭐</span>
+          <span class="stat-number">4.9</span>
+          <span class="stat-label">Safety Rating</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">👥</span>
+          <span class="stat-number">5</span>
+          <span class="stat-label">Referrals Made</span>
+        </div>
+      </section>
+
+      <!-- Journey Timeline -->
+      <section class="journey-section" id="journey">
+        <h2 class="section-title">Your Motus Drive Journey</h2>
+        <div class="journey-timeline">
+          <div class="timeline-line"></div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">March 2023</div>
+              <h3 class="timeline-title">Started Learning</h3>
+              <p class="timeline-desc">Enrolled in Motus Drive's comprehensive driving program with instructor Mike Johnson.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">May 2023</div>
+              <h3 class="timeline-title">First Milestone</h3>
+              <p class="timeline-desc">Successfully completed basic driving skills and city driving modules.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">July 2023</div>
+              <h3 class="timeline-title">Advanced Training</h3>
+              <p class="timeline-desc">Mastered highway driving, night driving, and defensive driving techniques.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">August 2023</div>
+              <h3 class="timeline-title">Graduation Day! 🎉</h3>
+              <p class="timeline-desc">Passed the final driving test with flying colors and received certification.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Success Stories -->
+      <section class="success-stories" id="stories">
+        <h2 class="section-title">Alumni Success Stories</h2>
+        <div class="stories-grid">
+          <div class="story-card">
+            <div class="story-header">
+              <div class="story-avatar">👩‍💼</div>
+              <div class="story-info">
+                <h3>Sarah Chen</h3>
+                <p class="story-role">Class of 2022</p>
+              </div>
+            </div>
+            <p class="story-quote">
+              Motus Drive didn't just teach me to drive, they taught me to be a responsible driver. 
+              Now I'm confident on any road, thanks to their amazing instructors!
+            </p>
+          </div>
+
+          <div class="story-card">
+            <div class="story-header">
+              <div class="story-avatar">👨‍🔧</div>
+              <div class="story-info">
+                <h3>Raj Patel</h3>
+                <p class="story-role">Class of 2021</p>
+              </div>
+            </div>
+            <p class="story-quote">
+              The personalized approach and patient instructors made all the difference. 
+              I went from nervous beginner to confident driver in just 3 months!
+            </p>
+          </div>
+
+          <div class="story-card">
+            <div class="story-header">
+              <div class="story-avatar">👩‍🎨</div>
+              <div class="story-info">
+                <h3>Maria Garcia</h3>
+                <p class="story-role">Class of 2023</p>
+              </div>
+            </div>
+            <p class="story-quote">
+              The defensive driving techniques I learned here have already saved me from two potential accidents. 
+              Motus Drive truly prioritizes safety!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Community Section -->
+      <section class="community-section" id="community">
+        <h2 class="community-title">Stay Connected</h2>
+        <p class="community-desc">
+          Join our thriving alumni community! Share your experiences, get driving tips, 
+          participate in events, and help new learners on their journey.
+        </p>
+        <div class="community-actions">
+          <a href="#" class="btn btn-primary">
+            <i class="fas fa-users"></i>
+            Join Alumni Group
+          </a>
+          <a href="#" class="btn btn-secondary">
+            <i class="fas fa-calendar"></i>
+            View Events
+          </a>
+          <a href="#" class="btn btn-secondary">
+            <i class="fas fa-share"></i>
+            Refer a Friend
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu functionality
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          navMenu.classList.toggle('active');
+          navToggle.classList.toggle('active');
+          
+          if (navMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+          } else {
+            document.body.style.overflow = 'auto';
+          }
+        });
+
+        // Close menu when clicking on nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.style.overflow = 'auto';
+          });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
+        });
+      }
+
+      // Button interactions
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const action = this.textContent.trim();
+          alert(`${action} functionality will be implemented soon!`);
+        });
+      });
+
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Counter animation
+      function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+          const target = counter.textContent;
+          const numericTarget = parseFloat(target.replace(/[^\d.]/g, ''));
+          
+          if (!isNaN(numericTarget)) {
+            let current = 0;
+            const increment = numericTarget / 50;
+            const updateCounter = () => {
+              if (current < numericTarget) {
+                current += increment;
+                if (target.includes(',')) {
+                  counter.textContent = Math.floor(current).toLocaleString();
+                } else if (target.includes('.')) {
+                  counter.textContent = current.toFixed(1);
+                } else {
+                  counter.textContent = Math.floor(current);
+                }
+                requestAnimationFrame(updateCounter);
+              } else {
+                counter.textContent = target;
+              }
+            };
+            updateCounter();
+          }
+        });
+      }
+
+      // Intersection Observer for animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (entry.target.classList.contains('alumni-stats')) {
+              animateCounters();
+            }
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+
+      const statsSection = document.querySelector('.alumni-stats');
+      if (statsSection) {
+        observer.observe(statsSection);
+      }
+    });
+  </script>
+</body>
+</html>

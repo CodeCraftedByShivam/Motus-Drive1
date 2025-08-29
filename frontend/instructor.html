@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instructor Dashboard - Motus Drive</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <!-- Include Navbar -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-main instructor-dashboard">
+    <div class="dashboard-container">
+      <!-- Instructor Welcome Section -->
+      <section class="welcome-section instructor-welcome">
+        <div class="welcome-content">
+          <h1>Good morning, <span class="user-name-display">Mike Johnson</span>! 🚗</h1>
+          <p>Ready to shape the next generation of safe drivers?</p>
+        </div>
+        <div class="instructor-stats">
+          <div class="stat-card earnings">
+            <div class="stat-icon">💰</div>
+            <div class="stat-info">
+              <h3>₹45,000</h3>
+              <p>This Month's Earnings</p>
+            </div>
+          </div>
+          <div class="stat-card students">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+              <h3>28</h3>
+              <p>Active Students</p>
+            </div>
+          </div>
+          <div class="stat-card rating">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-info">
+              <h3>4.8/5</h3>
+              <p>Average Rating</p>
+            </div>
+          </div>
+          <div class="stat-card lessons">
+            <div class="stat-icon">📚</div>
+            <div class="stat-info">
+              <h3>156</h3>
+              <p>Lessons This Month</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Today's Schedule -->
+      <section class="todays-schedule">
+        <div class="section-header">
+          <h2>Today's Schedule</h2>
+          <span class="date-display">Friday, August 29, 2025</span>
+        </div>
+        <div class="schedule-timeline">
+          <div class="schedule-item active">
+            <div class="time-slot">
+              <span class="time">09:00 AM</span>
+              <span class="duration">1 hour</span>
+            </div>
+            <div class="lesson-details">
+              <h3>Basic Driving - Sarah Chen</h3>
+              <p><i class="fas fa-map-marker-alt"></i> Downtown Training Center</p>
+              <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+            </div>
+            <div class="lesson-status">
+              <span class="status ongoing">Ongoing</span>
+              <button class="btn-small primary">Join Session</button>
+            </div>
+          </div>
+
+          <div class="schedule-item upcoming">
+            <div class="time-slot">
+              <span class="time">11:00 AM</span>
+              <span class="duration">1 hour</span>
+            </div>
+            <div class="lesson-details">
+              <h3>Highway Driving - Raj Patel</h3>
+              <p><i class="fas fa-map-marker-alt"></i> Highway Practice Route</p>
+              <p><i class="fas fa-phone"></i> +91 87654 32109</p>
+            </div>
+            <div class="lesson-status">
+              <span class="status upcoming">Upcoming</span>
+              <button class="btn-small secondary">Prepare</button>
+            </div>
+          </div>
+
+          <div class="schedule-item">
+            <div class="time-slot">
+              <span class="time">02:00 PM</span>
+              <span class="duration">1.5 hours</span>
+            </div>
+            <div class="lesson-details">
+              <h3>Parking Practice - Maria Garcia</h3>
+              <p><i class="fas fa-map-marker-alt"></i> Mall Parking Area</p>
+              <p><i class="fas fa-phone"></i> +91 76543 21098</p>
+            </div>
+            <div class="lesson-status">
+              <span class="status scheduled">Scheduled</span>
+              <button class="btn-small tertiary">View Details</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Student Management -->
+      <section class="student-management">
+        <h2>My Students</h2>
+        <div class="students-grid">
+          <div class="student-card">
+            <div class="student-avatar">
+              <img src="https://ui-avatars.com/api/?name=Sarah+Chen&background=667eea&color=fff" alt="Sarah Chen">
+            </div>
+            <div class="student-info">
+              <h3>Sarah Chen</h3>
+              <p>Beginner Level</p>
+              <div class="progress-mini">
+                <div class="progress-mini-fill" style="width: 35%"></div>
+              </div>
+              <span class="progress-text">35% Complete</span>
+            </div>
+            <div class="student-actions">
+              <button class="btn-icon" title="Message"><i class="fas fa-message"></i></button>
+              <button class="btn-icon" title="View Progress"><i class="fas fa-chart-line"></i></button>
+              <button class="btn-icon" title="Schedule Lesson"><i class="fas fa-calendar-plus"></i></button>
+            </div>
+          </div>
+
+          <div class="student-card">
+            <div class="student-avatar">
+              <img src="https://ui-avatars.com/api/?name=Raj+Patel&background=764ba2&color=fff" alt="Raj Patel">
+            </div>
+            <div class="student-info">
+              <h3>Raj Patel</h3>
+              <p>Intermediate Level</p>
+              <div class="progress-mini">
+                <div class="progress-mini-fill" style="width: 70%"></div>
+              </div>
+              <span class="progress-text">70% Complete</span>
+            </div>
+            <div class="student-actions">
+              <button class="btn-icon" title="Message"><i class="fas fa-message"></i></button>
+              <button class="btn-icon" title="View Progress"><i class="fas fa-chart-line"></i></button>
+              <button class="btn-icon" title="Schedule Lesson"><i class="fas fa-calendar-plus"></i></button>
+            </div>
+          </div>
+
+          <div class="student-card">
+            <div class="student-avatar">
+              <img src="https://ui-avatars.com/api/?name=Maria+Garcia&background=f093fb&color=fff" alt="Maria Garcia">
+            </div>
+            <div class="student-info">
+              <h3>Maria Garcia</h3>
+              <p>Advanced Level</p>
+              <div class="progress-mini">
+                <div class="progress-mini-fill" style="width: 90%"></div>
+              </div>
+              <span class="progress-text">90% Complete</span>
+            </div>
+            <div class="student-actions">
+              <button class="btn-icon" title="Message"><i class="fas fa-message"></i></button>
+              <button class="btn-icon" title="View Progress"><i class="fas fa-chart-line"></i></button>
+              <button class="btn-icon" title="Schedule Lesson"><i class="fas fa-calendar-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Performance Analytics -->
+      <section class="performance-analytics">
+        <h2>Performance Analytics</h2>
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <h3>Monthly Overview</h3>
+            <div class="chart-placeholder">
+              <i class="fas fa-chart-bar"></i>
+              <p>Earnings Chart</p>
+              <p class="chart-data">+15% from last month</p>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <h3>Student Satisfaction</h3>
+            <div class="satisfaction-score">
+              <div class="score-circle">4.8</div>
+              <div class="score-details">
+                <p>Average Rating</p>
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <h3>Weekly Progress</h3>
+            <div class="weekly-stats">
+              <div class="week-stat">
+                <span>Lessons</span>
+                <strong>42</strong>
+              </div>
+              <div class="week-stat">
+                <span>Hours</span>
+                <strong>63</strong>
+              </div>
+              <div class="week-stat">
+                <span>Pass Rate</span>
+                <strong>87%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+<script src="assets/js/script.js"></script>
+<script>
+  // Load navbar component and properly initialize
+  async function loadNavbar() {
+    try {
+      const response = await fetch('components/navbar.html');
+      const data = await response.text();
+      document.getElementById('navbar-container').innerHTML = data;
+      
+      // Wait a bit for DOM to update, then initialize navbar
+      setTimeout(() => {
+        // Initialize navbar manager
+        if (window.navbarManager) {
+          window.navbarManager.init();
+          window.navbarManager.login('instructor', { name: 'Mike Johnson' });
+        } else {
+          // If navbarManager doesn't exist yet, create it
+          window.navbarManager = new NavbarManager();
+          window.navbarManager.login('instructor', { name: 'Mike Johnson' });
+        }
+        
+        // Ensure mobile toggle works
+        setupMobileMenuToggle();
+      }, 100);
+      
+    } catch (error) {
+      console.error('Error loading navbar:', error);
+    }
+  }
+
+  // Enhanced mobile menu setup for dashboard pages
+  function setupMobileMenuToggle() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (navToggle && navMenu) {
+      // Remove any existing event listeners
+      navToggle.replaceWith(navToggle.cloneNode(true));
+      const newNavToggle = document.getElementById('navToggle');
+      
+      newNavToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        navMenu.classList.toggle('active');
+        newNavToggle.classList.toggle('active');
+        
+        // Handle body scroll
+        if (navMenu.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = 'auto';
+        }
+        
+        console.log('Mobile menu toggled:', navMenu.classList.contains('active'));
+      });
+
+      // Close menu when clicking on nav links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+          newNavToggle.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !newNavToggle.contains(e.target)) {
+          navMenu.classList.remove('active');
+          newNavToggle.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      console.log('Mobile menu toggle initialized successfully');
+    } else {
+      console.log('Mobile menu elements not found, retrying...');
+      // Retry after a short delay
+      setTimeout(setupMobileMenuToggle, 200);
+    }
+  }
+
+  // Dashboard specific JavaScript
+  document.addEventListener('DOMContentLoaded', () => {
+    // Load navbar first
+    loadNavbar();
+    
+    // Then initialize dashboard
+    setTimeout(initializeInstructorDashboard, 300);
+  });
+
+  function initializeInstructorDashboard() {
+    // Update current time
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 60000); // Update every minute
+
+    // Initialize button interactions
+    document.querySelectorAll('.btn-small, .btn-icon').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const action = e.currentTarget.textContent || e.currentTarget.title;
+        alert(`${action} functionality will be implemented soon!`);
+      });
+    });
+
+    // Animate progress bars
+    setTimeout(() => {
+      document.querySelectorAll('.progress-mini-fill').forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+          bar.style.width = width;
+          bar.style.transition = 'width 1.5s ease-in-out';
+        }, 100);
+      });
+    }, 500);
+  }
+
+  function updateCurrentTime() {
+    const now = new Date();
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    const dateDisplay = document.querySelector('.date-display');
+    if (dateDisplay) {
+      dateDisplay.textContent = now.toLocaleDateString('en-US', options);
+    }
+  }
+</script>
+</body>
+</html>
